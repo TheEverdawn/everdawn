@@ -1,25 +1,46 @@
 require("dotenv").config();
+const fs = require("fs");
+const { Client, Collection, Intents } = require("discord.js");
+const { TOKEN: token } = process.env;
 
-// Require the necessary discord.js classes
-const { Client, Intents } = require("discord.js");
-const {
-  TOKEN: token,
-  clientId: CLIENT_ID,
-  CLIENT_SECRET: clientSecret,
-  GUILD_ID: guildId,
-} = process.env;
-
- if (!token) {
-  console.log("Discord token missing - please provide via TOKEN env var");
-  process.exit(1);
+if (!token) {
+	console.log("Discord token missing - please provide via TOKEN env var");
+	process.exit(1);
 }
-// Create a new client instance
+
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
-// When the client is ready, run this code (only once)
+client.commands = new Collection();
+const commandFiles = fs
+	.readdirSync("./commands")
+	.filter((file) => file.endsWith(".js"));
+
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`);
+	client.commands.set(command.data.name, command);
+}
+
 client.once("ready", () => {
-  console.log("Ready!");
+	console.log("Ready!");
 });
 
-// Login to Discord with your client's token
+client.on("interactionCreate", async (interaction) => {
+	console.log("interaction created");
+	if (!interaction.isCommand()) return;
+
+	const command = client.commands.get(interaction.commandName);
+
+	if (!command) return;
+
+	try {
+		await command.execute(interaction);
+	} catch (error) {
+		console.error(error);
+		return interaction.reply({
+			content: "There was an error while executing this command!",
+			ephemeral: true,
+		});
+	}
+});
+
 client.login(token);
