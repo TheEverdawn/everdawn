@@ -10,3 +10,13 @@ To ensure all our code is formatted the same, make sure your editor supports/has
 ## Running it
 
 `node index.js`
+
+The app will now be running locally and will respond to commands, events, etc that it cares about.
+
+## Deployment
+
+TODO!
+
+For early development we can use a free host like [Glitch](https://glitch.me) - automated deploys would be nice. We can probably use Github actions to do that.
+
+When we get to the point of alpha release we should find something more stable.
