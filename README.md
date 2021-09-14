@@ -2,6 +2,8 @@
 
 ## Getting started
 
+Note: Node.JS 16 or later is required to run the app.
+
 - `npm install`
 - copy `.env.example` to `.env` and fill in the values (ask an admin if you don't know them)
 
