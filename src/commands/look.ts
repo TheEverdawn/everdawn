@@ -1,5 +1,5 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageActionRow, MessageButton } = require("discord.js");
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { MessageActionRow, MessageButton } from "discord.js";
 
 // Example of a "deferred response" to a command, to overcome the 3-second
 // reply window (see https://discordjs.guide/interactions/replying-to-slash-commands.html#deferred-responses)
@@ -7,7 +7,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("look")
 		.setDescription("Observe your surroundings"),
-	async execute(interaction) {
+	execute: async (interaction: any) => {
 		const row1 = new MessageActionRow().addComponents(
 			new MessageButton()
 				.setCustomId("worf")

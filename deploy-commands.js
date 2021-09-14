@@ -7,8 +7,8 @@ const { TOKEN: token, CLIENT_ID: clientId, GUILD_ID: guildId } = process.env;
 
 const commands = [];
 const commandFiles = fs
-	.readdirSync("./commands")
-	.filter((file) => file.endsWith(".js"));
+	.readdirSync("./src/commands")
+	.filter((file) => file.endsWith(".ts"));
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);

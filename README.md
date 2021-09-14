@@ -11,11 +11,17 @@ To ensure all our code is formatted the same, make sure your editor supports/has
 
 ## Running it
 
-`node index.js`
-
-To have the app restart as you make changes, instead run `npx nodemon index.js`.
+**In watch mode for local development:**
+`npm run dev`
 
 The app will now be running locally and will respond to commands, events, etc that it cares about.
+
+**For production:**
+`NODE_ENV=production npm start`
+
+## Gotchas
+
+The discord.js library seems to have a few quirks with typescript - even with code copied straight from [the guide](https://discordjs.guide). If you run into [any of these](https://github.com/discordjs/discord.js/issues/6638) then unless it's a quick fix, feel free to raise an issue on their Github and stick a `// @ts-ignore` before the offending line, preferably with an explanatory comment and/or link to the Github issue if appropriate.
 
 ## Deployment
 

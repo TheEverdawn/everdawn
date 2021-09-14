@@ -1,6 +1,7 @@
 require("dotenv").config();
-const fs = require("fs");
-const { Client, Collection, Intents } = require("discord.js");
+import fs from "fs";
+import path from "path";
+import { ClientApplication, Client, Collection, Intents } from "discord.js";
 const { TOKEN: token } = process.env;
 
 if (!token) {
@@ -10,13 +11,16 @@ if (!token) {
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
+// See https://github.com/discordjs/discord.js/issues/6638
+// @ts-ignore
 client.commands = new Collection();
 const commandFiles = fs
-	.readdirSync("./commands")
-	.filter((file) => file.endsWith(".js"));
+	.readdirSync(path.join(__dirname, "commands"))
+	.filter((file: any) => file.endsWith(".ts"));
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
+	// @ts-ignore
 	client.commands.set(command.data.name, command);
 }
 
@@ -24,10 +28,11 @@ client.once("ready", () => {
 	console.log("Ready!");
 });
 
-client.on("interactionCreate", async (interaction) => {
+client.on("interactionCreate", async (interaction: any) => {
 	console.log("interaction created");
 	if (!interaction.isCommand()) return;
 
+	// @ts-ignore
 	const command = client.commands.get(interaction.commandName);
 
 	if (!command) return;
