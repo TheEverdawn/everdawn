@@ -13,6 +13,8 @@ To ensure all our code is formatted the same, make sure your editor supports/has
 
 `node index.js`
 
+To have the app restart as you make changes, instead run `npx nodemon index.js`.
+
 The app will now be running locally and will respond to commands, events, etc that it cares about.
 
 ## Deployment
