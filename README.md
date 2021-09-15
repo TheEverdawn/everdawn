@@ -32,6 +32,9 @@ To ensure all our code is formatted the same, make sure your editor supports/has
 
 The app will now be running locally and will respond to commands, events, etc that it cares about.
 
+## Gotchas
+If you find the dev command seems to span recurring instances of the app, it's likely you're using a version of npm < 7, which doesn't have workspace support. Switch to Node 16 which includes npm 7 and all should be well.
+
 ## Deployment
 
 TODO!
