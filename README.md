@@ -1,15 +1,19 @@
 # The Everdawn
+
 This is a monorepo using [npm workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces) to share tooling and dependencies between the Discord app and backend API.
 
 ## Prerequisites
+
 **For the apps:**
+
 - Node.JS >= 16
 
 **For the DB:**
+
 - Docker and docker-compose
 - OR your own Mongo server
 
-## Setup 
+## Setup
 
 Note: Node.JS 16 or later is required to run the app.
 
