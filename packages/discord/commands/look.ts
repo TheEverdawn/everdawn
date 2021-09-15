@@ -51,6 +51,7 @@ module.exports = {
 					? "You see the following items"
 					: "There is nothing of worth here",
 			components,
+			ephemeral: true
 		});
 	},
 };
