@@ -4,6 +4,8 @@ import {
 	MessageButton,
 	BaseCommandInteraction,
 	MessageSelectMenu,
+	// MessageComponentInteraction,
+	// TextChannel,
 } from "discord.js";
 
 import { api } from "../services/api";
@@ -51,7 +53,49 @@ module.exports = {
 					? "You see the following items"
 					: "There is nothing of worth here",
 			components,
-			ephemeral: true
+			ephemeral: true,
 		});
+
+		// Revive the below when we've figured out how to store the map in the DB
+		// (so we can show adjacent rooms in response to this command, as well as items
+		// in the current room)
+
+		// const components = [new MessageActionRow().addComponents(
+		// 	new MessageButton()
+		// 		.setCustomId("enter_quarters_test")
+		// 		.setLabel("Enter")
+		// 		.setStyle("DANGER")
+		// )];
+
+		// const filter = (i: MessageComponentInteraction) => i.customId === "enter_quarters_test" && i.user.id === interaction.user.id;
+		// const collector = interaction.channel?.createMessageComponentCollector({ filter, time: 15000 });
+
+		// collector?.on("collect", async (i: MessageComponentInteraction) => {
+		// 	if (i.customId === "enter_quarters_test") {
+		// 		const components = [new MessageActionRow().addComponents(
+		// 			new MessageButton()
+		// 				.setCustomId("enter_quarters_test")
+		// 				.setLabel("Enter")
+		// 				.setStyle("DANGER")
+		// 				.setDisabled(true)
+		// 		)];
+
+		// 		const privateChannelId = "887654501333467187"
+		// 		const channel = interaction.client.channels.cache.get(privateChannelId) as TextChannel;
+		// 		// @ts-ignore
+		// 		await channel.permissionOverwrites.edit(i.user, {
+		// 				SEND_MESSAGES: true,
+		// 				VIEW_CHANNEL: true
+		// 		});
+
+		// 		await i.update({ content: `The door slides open. Jazz and a cloud of cologne emanate from within. Head on over to <#${privateChannelId}>`, components: [] });
+		// 	}
+		// });
+
+		// await interaction.reply({
+		// 	content: "You see the door to Riker's quarters. Smooth, beige, and inviting.",
+		// 	components,
+		// 	ephemeral: true
+		// });
 	},
 };
