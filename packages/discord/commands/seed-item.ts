@@ -4,7 +4,7 @@ import { BaseCommandInteraction } from "discord.js";
 import { api } from "../services/api";
 
 const seedItems = [
-	"Diana's half-eaten chocolate pudding",
+	"Deanna's half-eaten chocolate pudding",
 	"Worf's sock",
 	"Evil Riker's fake beard",
 	"Picard's spine re-aligner",
