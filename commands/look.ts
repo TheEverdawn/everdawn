@@ -8,15 +8,23 @@ import {
 	// TextChannel,
 } from "discord.js";
 
-import { api } from "../services/api";
+import { getItemsInLocation, getLocationForChannel } from "../services";
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("look")
 		.setDescription("Observe your surroundings"),
 	execute: async (interaction: BaseCommandInteraction) => {
-		const items = (await api.get(`/items?room=${interaction.channelId}`))
-			.data as any[];
+		const location = await getLocationForChannel(interaction.channelId);
+
+		if (!location) {
+			await interaction.editReply(
+				"This channel is missing a location entry in the database. If you created this channel manually, rather than through `/dev-create-location`, please create an entry for it in the database. If you _did_ create this channel using `/dev-create-location`, then something has gone horribly wrong (but you can still just add the location entry in the database)."
+			);
+			return;
+		}
+
+		const items = await getItemsInLocation(location.id);
 
 		// Discord only allows five action rows, so if there are more than four items, we will show the rest in a select menu
 		const firstFourItems = items.slice(0, 3);
@@ -24,7 +32,7 @@ module.exports = {
 		const components = firstFourItems.map((item) =>
 			new MessageActionRow().addComponents(
 				new MessageButton()
-					.setCustomId(item._id)
+					.setCustomId(String(item.id))
 					.setLabel(item.name)
 					.setStyle("PRIMARY")
 			)
@@ -40,7 +48,7 @@ module.exports = {
 							remainingItems.map((item) => ({
 								label: item.name,
 								description: "A description of the item",
-								value: item._id,
+								value: String(item.id),
 							}))
 						)
 				)

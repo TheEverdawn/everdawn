@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, GuildMember, Role } from "discord.js";
 
-import { api } from "../services/api";
+import { createLocation } from "../services";
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -40,10 +40,17 @@ module.exports = {
 			],
 		});
 
+		if (!channel) {
+			await interaction.editReply(
+				"Failed to create channel for location. A database entry has not been created for the location so you may freely try again. If the problem persists, there is probably some sort of permissions error when creating the channel - please check the bot's logs."
+			);
+			return;
+		}
+
 		// Create corresponding location in DB
-		await api.post("/locations", {
+		await createLocation({
 			name,
-			channel: channel?.id,
+			channel: channel.id,
 		});
 
 		await interaction.editReply(
