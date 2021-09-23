@@ -1,10 +1,13 @@
 version: "3"
 services:
-  mongo:
-    image: mongo
+  db:
+    image: postgres
     ports:
-      - 27017:27017
+      - 5432:5432
+    environment:
+      POSTGRES_USER: test # The PostgreSQL user (useful to connect to the database)
+      POSTGRES_PASSWORD: test # The PostgreSQL password (useful to connect to the database)
+      POSTGRES_DB: everdawn_local
     volumes:
-      - mongodb:/data/db
-volumes:
-  mongodb:
+      # Persist data locally
+      - ./db-data/:/var/lib/postgresql/data/

@@ -1,11 +1,11 @@
 {
 	"compilerOptions": {
-		"target": "es5",
-		"module": "commonjs",
-		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"sourceMap": true,
+		"outDir": "dist",
 		"strict": true,
-		"skipLibCheck": true
-	},
-	"include": ["packages/discord/**/*", "packages/backend/**/*"]
+		"lib": ["esnext"],
+		"esModuleInterop": true
+	}
 }

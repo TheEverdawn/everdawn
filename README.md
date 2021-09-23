@@ -1,44 +1,58 @@
 # The Everdawn
 
-This is a monorepo using [npm workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces) to share tooling and dependencies between the Discord app and backend API.
+The Discord bot for the Everdawn PBP.
 
 ## Prerequisites
 
-**For the apps:**
-
 - Node.JS >= 16
-
-**For the DB:**
-
-- Docker and docker-compose
-- OR your own Mongo server
+- For the DB:
+  - Docker and docker-compose
+  - OR your own Postgres server
 
 ## Setup
 
-Note: Node.JS 16 or later is required to run the app.
+Note: Node.JS 16 or later is required to run the app. [nvm](https://github.com/nvm-sh/nvm) can be useful for managing node versions. Once installed, just run:
 
-**Install deps for both apps**
+- `nvm install 16` (one-time only)
+- `nvm use 16` (to switch to using node 16)
+
+If you see the following error when starting the app:
+
+```
+(node:182964) UnhandledPromiseRejectionWarning: ReferenceError: AbortController is not defined
+```
+
+then you are not running Node 16..
+
+**Install dependencies**
 `npm install`
 
 To ensure all our code is formatted the same, make sure your editor supports/has plugins enabled for Editorconfig, Eslint and Prettier. If you're using VSCode, it should have suggested some based on the contents of our `.vscode/extensions.json` file. If not, take a look in that file for which ones to install.
 
 ## Running it
 
-**Start the Mongo database server**
+**Start the Postgres database server**
 `docker-compose up`
 
-**Start both apps in watch mode (Discord client and backend API)**
+**Start the app in watch mode**
 `npm run dev`
 
 The app will now be running locally and will respond to commands, events, etc that it cares about.
 
-## Gotchas
-If you find the dev command seems to span recurring instances of the app, it's likely you're using a version of npm < 7, which doesn't have workspace support. Switch to Node 16 which includes npm 7 and all should be well.
+## Changing the database schema
+
+We're using [Prisma](https://prisma.io), "the type-safe ORM" to connect to, query, and manage our database.
+
+To add/remove/modify a table, edit `prisma/schema.prisma` and then run `npx prisma db push`. This will make the relevant changes to the database structure, as well as regenerating the type definitions in `node_modules/@prisma/client` (so that you get nice autocompletion and type-checking for your models). Read more about:
+
+- [Prisma's generated types](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/install-prisma-client-typescript-postgres)
+- [`prisma db push`](https://www.prisma.io/docs/concepts/components/prisma-migrate/db-push/)
+- [`prisma migrate`](https://www.prisma.io/docs/concepts/components/prisma-migrate), which we will eventually use to manage migrating the database, when we're past the prototyping phase.
 
 ## Deployment
 
 TODO!
 
-For early development we can use a free host like [Glitch](https://glitch.me) - automated deploys would be nice. We can probably use Github actions to do that.
+No need to deploy when just playing around - the app connects itself to the Discord "gateway" and listens for events - unlike Slack, Discord bots don't need to listen on a URL for events.
 
-When we get to the point of alpha release we should find something more stable.
+When we want to properly playtest a mission we should find somewhere stable to host the bot and database.

@@ -1,7 +1,7 @@
 require("dotenv").config();
 import fs from "fs";
 import path from "path";
-import { ClientApplication, Client, Collection, Intents } from "discord.js";
+import { Client, Collection, Intents } from "discord.js";
 const { TOKEN: token } = process.env;
 
 if (!token) {
